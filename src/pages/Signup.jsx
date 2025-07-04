@@ -15,6 +15,7 @@ const SignUpPage = () => {
   //useQueryClient is a hook from react-query that provides access to the query client instance.
     const queryClient = useQueryClient();  
     const {mutate:signUpMutation,isPending,error}=useMutation({
+          mutationKey: ["signup"],
           mutationFn: signUp,
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["authUser"] });
@@ -31,7 +32,7 @@ const SignUpPage = () => {
     e.preventDefault();
     signUpMutation(signupData);
   }
-
+    console.log("error",error?.message);
   return (
     <div
       className="flex items-center justify-center lg:h-screen p-4 sm:p-6 md:p-8 "
@@ -54,7 +55,7 @@ const SignUpPage = () => {
           {/* Error message */}
           {error && (
             <div className="alert alert-error shadow-lg mt-4">
-              {error?.response?.data?.message}
+              {error?.response?.data?.message || error?.message || "An error occurred during signup."}
             </div>
           )}
 
