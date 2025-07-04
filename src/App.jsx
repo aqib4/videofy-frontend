@@ -22,10 +22,10 @@ function App() {
     const isAuthenticated =Boolean(authUser);
     const isOnboarded= authUser?.isOnboarded;
 
-
+    
      if(isLoading){
-      <Loader />
-    }
+      return <Loader />
+     }
     
   return (
     <>
@@ -34,8 +34,10 @@ function App() {
            <Navigate to={!isAuthenticated ? "/login" : "/onbaording"} /> }/>
           <Route path="/signup" element={ !isAuthenticated ? <SignUp/> : <Navigate to={"/"} /> } />
           <Route path="/login" element={!isAuthenticated ? <Login/> : <Navigate to={"/"}/> } />
-          <Route path="/onbaording" element={isAuthenticated ? <Onboarding/>  : <Navigate to="/login"/> } />
-          <Route path="/chat" element={isAuthenticated ? <Chat/>  : <Navigate to="/login"/> } />
+          <Route path="/onbaording" element={(isAuthenticated && !isOnboarded) ? <Onboarding/>  : <Navigate to={!isAuthenticated ? "/login": "/"}/> } />
+          <Route path="/chat" element={(isAuthenticated && isOnboarded) ? <Chat/>  : 
+          <Navigate to={!isAuthenticated? "/login":"/chat"}/> 
+          } />
           <Route path="/notification" element={isAuthenticated ? <Notifications/>  : <Navigate to="/login"/> } />
           <Route path="/call" element={isAuthenticated ? <Call/>  : <Navigate to="/login"/> } />
         </Routes> 
