@@ -1,9 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
 import { Loader, Video } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router";
-import toast from "react-hot-toast";
-import { loginUser } from "../lib/api";
+import useLogin from "../hooks/useLogin";
 
 const Login = () => {
 
@@ -11,36 +9,23 @@ const Login = () => {
     email: "",
     password: "",
   });
+  
+  const { loginMutation, isPending, error } = useLogin();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    loginMutation(loginData);
+  };
 
-  const {mutate:loginMutation,isPending,error}=useMutation({
-    mutationKey: ["login"],
-    mutationFn:loginUser,
-    onSuccess: () => {
-     toast.success("Login successful!");
-      // Handle successful login, e.g., redirect or update state
-    },
-    onError: (error) => {
-      console.error("Login failed:", error);
-    },
-  });
-  // Handle login form submission
-  const handleLogin=(e)=>{
-     e.preventDefault();
-      loginMutation(loginData);
-  }
   return (
     <div
       className="flex items-center justify-center min-h-screen p-4 sm:p-6 md:p-8"
       data-theme="forest"
     >
       <div
-        className="bg-[#19271A] flex flex-col lg:flex-row border border-primary/25 shadow-lg w-full max-w-5xl"
+        className="bg-[#19271A] flex flex-col lg:flex-row border border-primary/25 shadow-lg w-full max-w-5xl mx-auto rounded-xl overflow-hidden"
       >
         {/* left side container */}
-        <div
-          className="flex-1 flex flex-col  p-4 m-2 rounded-md"
-          data-theme="black"
-        >
+        <div className="flex-1 w-full lg:w-1/2 flex flex-col  p-4 m-2 rounded-md" data-theme="black" >
           <div className="flex gap-1 justify-center items-center ">
           <Video color="#1DB548" className="size-8 xl:size-12" />
           <span className=" text-2xl md:text-3xl xl:text-4xl font-montesarate font-semibold text-[#1DB548]">
@@ -100,7 +85,7 @@ const Login = () => {
            </div>
         </div>
         {/* right side container  */}
-        <div className="flex-1 flex flex-col items-center justify-center p-4 md:p-6">
+        <div className="flex-1 w-full lg:w-1/2  flex flex-col items-center justify-center p-4 md:p-6">
            <img src="signup.png" className="max-w-sm aspect-square"/>
            <h3 className="text-white/80 font-sans font-bold text-[1.4rem]">Connect with language partners worldwide</h3>
            <p className="text-center text-white/80 font-montesarate text-[1rem]">Practice Conversatioons, Make Friends, and improve your language together.</p>

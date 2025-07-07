@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Video } from "lucide-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast, { Toaster } from "react-hot-toast";
-import { signUp } from "../lib/api";
+import useSignup from "../hooks/useSignup";
 
 const SignUpPage = () => {
   const [signupData, setSignupData] = useState({
@@ -11,22 +9,7 @@ const SignUpPage = () => {
     password: "",
   });
 
-   // it is used to manage the cache and invalidate queries (meaning it will refetch the data from the server when the mutation is successful)
-  //useQueryClient is a hook from react-query that provides access to the query client instance.
-    const queryClient = useQueryClient();  
-    const {mutate:signUpMutation,isPending,error}=useMutation({
-          mutationKey: ["signup"],
-          mutationFn: signUp,
-          onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["authUser"] });
-            toast.success("Signup successful!");
-          },          
-          onError: (error) => {
-            console.error("Signup failed:", error);
-            // toast.error("Signup failed. Please try again.");
-          },
-          retry: false, // Disable retries for this mutation
-    })
+   const [signUpMutation, isPending, error] = useSignup();
   // Handle signup form submission
   const  handleSignup= (e) => {
     e.preventDefault();
