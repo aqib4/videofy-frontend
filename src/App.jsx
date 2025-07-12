@@ -11,25 +11,23 @@ import {Toaster} from "react-hot-toast";
 import Loader from "./components/Loader.jsx";
 import useAuthUser from "./hooks/useAuthUser.jsx";
 import Layout from "./components/Layout.jsx";
+import useThemeStore from "./store/usethemestore.js";
 
 
 function App() {
   
     const {isLoading,authUser}=useAuthUser();
     console.log("authUser", authUser);
-    
-    //this will convert the authUser object to a boolean value, true if it exists,
-    //false if it doesn't.
     const isAuthenticated =Boolean(authUser);
     const isOnboarded= authUser?.isOnboarded;
-
+    const {theme}=useThemeStore();
     if(isLoading) {
         return <Loader/>
     }
      
     
   return (
-    <div className="h-screen" data-theme="night">
+    <div className="h-screen" data-theme={theme}>
         <Routes>
           <Route path="/" element={(isAuthenticated && isOnboarded)? 
             <Layout>
