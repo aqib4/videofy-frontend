@@ -22,3 +22,28 @@ export async function loginUser(loginData) {
            console.log("login res", res);
            return res.data;
 }
+
+export async function getFriends() {
+    const res = await axiosInstance.get("/user/friends");
+    console.log("getFriends res", res);
+    return res.data;
+}
+
+export async function getRecommendedUsers() {
+    const res = await axiosInstance.get("/user/");
+    console.log("getRecommendedUsers res", res);
+    return res.data;
+}
+
+export async function GetOutGoingFriendRequests() {
+    const res = await axiosInstance.get("/user/friend-request/sent");
+    console.log("getFriendRequests res", res);
+    return res.data;
+}
+
+export async function sendFriendRequest({ userId }) {
+    const { data } = await axiosInstance.post('/user/friend-request/' + userId);
+    console.log("sendFriendRequest data", data);
+    return data;
+}
+
