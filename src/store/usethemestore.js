@@ -1,8 +1,11 @@
 import { create } from 'zustand'
 
 const useThemeStore = create((set) => ({
-      theme:"Coffee",
-      settheme:(theme)=>set(theme)
+      theme: localStorage.getItem("videofy-theme") || "Coffee",
+      settheme:(theme)=>{
+            localStorage.setItem("Videofy-theme", theme);
+            set({ theme });
+      }
 }))
 
 export default useThemeStore;

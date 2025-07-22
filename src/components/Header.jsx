@@ -1,9 +1,18 @@
 import React, { useState } from "react";
-import { Video, Bell, Citrus, LogOut, MenuIcon, X, SettingsIcon, Logs } from "lucide-react";
+import {
+  Video,
+  Bell,
+  Citrus,
+  LogOut,
+  MenuIcon,
+  X,
+  SettingsIcon,
+  Logs,
+} from "lucide-react";
 import useAuthUser from "../hooks/useAuthUser";
 import useLogout from "../hooks/useLogout";
 import Loader from "./Loader";
-
+import ThemeModal from "./themeModal";
 function Header() {
   const { authUser } = useAuthUser();
   const [modal, setModal] = useState(false);
@@ -20,7 +29,7 @@ function Header() {
   }
 
   return (
-    <nav className="bg-black relative flex justify-between items-center py-2 px-3 md:px-8" >
+    <nav className="bg-black relative flex justify-between items-center py-2 px-3 md:px-8">
       {/* Logo */}
       {currentPath === "/chat" ? (
         <div className="flex items-center justify-center gap-2">
@@ -30,7 +39,7 @@ function Header() {
           </span>
         </div>
       ) : (
-        <div></div>
+        <div className="flex-1"></div>
       )}
 
       {/* Mobile Menu Icon */}
@@ -51,22 +60,32 @@ function Header() {
       </div>
 
       {/* Desktop Menu */}
-      <div className="hidden lg:flex items-center gap-6">
+      <div className="hidden lg:flex  items-center justify-equal gap-6">
         <Bell className="w-6 h-6 text-white/55 hover:text-white cursor-pointer transition duration-200" />
-        <Citrus className="w-6 h-6 text-white/55 hover:text-white cursor-pointer transition duration-200" />
-        <img src={authUser?.profilePic} alt="profile" className="w-10 h-10 rounded-full" />
+        <ThemeModal/>
+        <img
+          src={authUser?.profilePic}
+          alt="profile"
+          className="w-10 h-10 rounded-full"
+        />
+
         <LogOut
           onClick={handleLogout}
           className="w-6 h-6 text-white/55 hover:text-white cursor-pointer transition duration-200"
         />
+
       </div>
 
       {/* Mobile Menu */}
       {modal && (
         <div className="relative">
           <ul className="bg-black text-white w-[55%] fixed top-0 left-0 min-h-screen z-999 flex flex-col p-8">
-            <li className="text-xl font-sans hover:text-[#1DB548] hover:border-b-[1px] hover:border-blue-100 hover:transition hover:duration-300">Home</li>
-            <li className="text-xl font-sans hover:text-[#1DB548] hover:transition hover:duration-300">Friends</li>
+            <li className="text-xl font-sans hover:text-[#1DB548] hover:border-b-[1px] hover:border-blue-100 hover:transition hover:duration-300">
+              Home
+            </li>
+            <li className="text-xl font-sans hover:text-[#1DB548] hover:transition hover:duration-300">
+              Friends
+            </li>
             <li className="flex-1 absolute bottom-2 w-6 h-6 text-white/55 hover:text-white cursor-pointer transition duration-200">
               <LogOut onClick={handleLogout} />
             </li>
@@ -84,8 +103,12 @@ function Header() {
           <div className="flex gap-3 my-2">
             <img src={authUser?.profilePic} alt="" className="size-12" />
             <div>
-              <h3 className="text-white font-sans text-[1.1rem]">{authUser?.fullname}</h3>
-              <p className="text-white/70 font-sans text-[1.1rem]">{authUser?.email}</p>
+              <h3 className="text-white font-sans text-[1.1rem]">
+                {authUser?.fullname}
+              </h3>
+              <p className="text-white/70 font-sans text-[1.1rem]">
+                {authUser?.email}
+              </p>
             </div>
           </div>
           <hr color="gray" />
@@ -107,6 +130,44 @@ function Header() {
           </div>
         </div>
       )}
+
+      {/* theme selctor modal */}
+      {/* {themeModal && (
+          <div className="w-64 absolute top-12 right-28 p-2 bg-black">
+            <select className="w-[100%] bg-transparent" name="" id="">
+              <option>
+                Default
+              </option>
+              <option>
+                Default
+              </option>
+              <option>
+                Default
+              </option>
+              <option>
+                Default
+              </option>
+              <option>
+                Default
+              </option>
+              <option>
+                Default
+              </option>
+              <option>
+                Default
+              </option>
+              <option>
+                Default
+              </option>
+              <option>
+                Default
+              </option>
+              <option>
+                Default
+              </option>
+            </select>
+          </div>
+      )} */}
     </nav>
   );
 }

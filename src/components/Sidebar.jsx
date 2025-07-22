@@ -19,7 +19,7 @@ function Sidebar() {
     <aside
       className={`${
         currentPath === "/chat" ? "hidden" : "lg:flex"
-      } flex-col w-64 h-screen sticky top-0 bg-black shadow-lg text-white p-2 overflow-hidden`}
+      } flex-col w-64 h-screen sticky top-0 bg-black shadow-2xl text-white p-2 overflow-hidden`}
     >
       {/* logo */}
       <Link to="/">
