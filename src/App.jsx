@@ -54,9 +54,12 @@ function App() {
              </Layout> 
             : <Navigate to={!isAuthenticated? "/login":"/chat"}/>} />
 
-          <Route path="/notification" element={isAuthenticated ?
-             <Notifications/>  : 
-             <Navigate to="/login"/> } />
+           <Route path="/notification" element={isAuthenticated && isOnboarded ?
+             <Layout>
+              <Notifications/>
+             </Layout>
+             : 
+             <Navigate to={!isAuthenticated ? "/login" : "/onbaording"}/> } />
 
           <Route path="/call" element={isAuthenticated ? 
           <Call/>  :

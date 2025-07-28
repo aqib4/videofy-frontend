@@ -10,11 +10,13 @@ const Login = () => {
     password: "",
   });
   
-  const { loginMutation, isPending, error } = useLogin();
+  const { loginMutation, isPending,error } = useLogin();
   const handleLogin = (e) => {
     e.preventDefault();
     loginMutation(loginData);
   };
+
+  console.log("Login Data", error);
 
   return (
     <div
@@ -52,6 +54,8 @@ const Login = () => {
               <legend className="fieldset-legend mb-3">Email</legend>
               <input type="email"
                 value={loginData.email}
+                autoComplete="email"
+                required
                 onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                className="input input-neutral  border border-primary/25 rounded-full w-full focus:outline-none focus:border-primary/75 focus:ring-1 focus:ring-primary/75" 
                placeholder="Your Email ..." />
@@ -61,6 +65,8 @@ const Login = () => {
               <legend className="fieldset-legend mb-3">Email</legend>
               <input 
                type="password"
+                autoComplete="password"
+                required
                className="input bg-transparent border border-primary/25 rounded-full w-full focus:outline-none focus:border-primary/75 focus:ring-1 focus:ring-primary/75" 
                 value={loginData.password}
                 onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
