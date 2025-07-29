@@ -1,14 +1,13 @@
-import React, { use, useEffect, useState } from 'react'
-import {  useQuery } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react'
+import {   useQuery } from '@tanstack/react-query';
 import {  getRecommendedUsers, GetOutGoingFriendRequests } from '../lib/api';
-import  { Toaster } from 'react-hot-toast';
+import  {   Toaster } from 'react-hot-toast';
 import { countryFlag } from './FriendCard';
 import useSendFriendRequest from '../hooks/useSendFriendRequest';
-import { set } from 'mongoose';
-
+import {  CircleCheck, Loader, LocateIcon, LocationEdit, UserPlus} from 'lucide-react';
 function NewFriends() {
 
-    const [outGoingRequestId,setOutGoingRequestId]= useState(new set());
+    const [outGoingRequestId,setOutGoingRequestId]= useState(new Set());
 
 
     // Fetch recommended users
@@ -23,14 +22,15 @@ function NewFriends() {
         queryFn:GetOutGoingFriendRequests,
     });
     // Mutation to send friend request , custom hook.
-    const {friendRequestMutate}=useSendFriendRequest();
+    // const {friendRequestMutate}=useSendFriendRequest();
+    const {  friendRequestMutate }=useSendFriendRequest()
    
-    // Update the outGoingRequestId state with the IDs of the outgoing requests
+    // Update the outGoingReq    uestId state with the IDs of the outgoing requests
     useEffect(() => {
       const outGoingIds=new Set();
-      if(outGoingRequests && outGoingRequests?.sentRequests?.length > 0) {
-        outGoingRequests.sentRequests.forEach(req => {
-          outGoingIds.add(req);
+      if(outGoingRequests && outGoingRequests?.length > 0) {
+        outGoingRequests.forEach(req => {
+          outGoingIds.add(req.recipient._id);
         });
       }
       setOutGoingRequestId(outGoingIds);
@@ -38,7 +38,9 @@ function NewFriends() {
     
    // Function to handle sending friend request
    const handleUserRequest = ({userId}) => {
-    friendRequestMutate({userId});
+    setOutGoingRequestId(prev => new Set(prev).add(userId));
+
+    friendRequestMutate({ userId });
     console.log("Friend request sent to user with ID:", userId);
    }
     
@@ -46,12 +48,13 @@ function NewFriends() {
   return (
     <section className='mt-10'>
       {/* single friend card */}
-      {recommendusers?.users?.length > 0 ? (
-        isLoading ? (
+      {
+         isLoading ? (
           <div className="flex items-center justify-center h-full">
             <div className="loader">Loading....</div>
-          </div>
-        ) : (
+          </div>)
+      :
+      recommendusers?.users?.length > 0 ? (
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4  p-4 shadow-sm shadow-slate-600 rounded-md">
           {
           recommendusers.users.map(
@@ -61,10 +64,14 @@ function NewFriends() {
               profilePicture: profilePic,
               leaningLanguage,
               nativeLanguage,
-            }) => (
+              location,
+            }) => {
+              const hasRequestBeenSent = outGoingRequestId.has(id);
+              
+            return (
               <li
                 key={id}
-                className='shadow-sm  shadow-slate-600 p-3 rounded-md'
+                className='bg-gray-900 hover:shadow-sm  hover:shadow-slate-600 px-4 py-6 rounded-md transition-all duration-300'
               >
                 {/* friend card header */}
                 <div className="flex gap-4 items-center">
@@ -76,9 +83,17 @@ function NewFriends() {
                       />
                     </div>
                   </div>
-                  <h2 className="text-[18px] font-bold text-white">
+                 <div>
+                 <h2 className="text-[18px] font-bold text-white">
                     {firstName}
                   </h2>
+                  <span className="text-sm text-white/70">
+                  <LocationEdit className="size-4 inline-block mr-1" />
+                  {location}
+                  </span>
+                 </div>
+
+
                 </div>
                 {/* friend card body */}
                 <div className="flex flex-col md:flex-row gap-2 mt-4">
@@ -93,19 +108,31 @@ function NewFriends() {
                 </div>
                 {/* friend card footer */}
                 <button
-                onClick={()=> handleUserRequest({userId:id})}
-                className="w-full  border-[1px] rounded-full px-4 py-3   mt-4 bg-transparent text-white hover:bg-primary/95 transition-colors duration-300">
-                  {
-                    // Display "Request Sent" if the user has already sent a request
-                    recommendusers?.sentRequests?.includes(id) ? "Request Sent" : "Send Request"
-                  }
-                </button>
+                        className={`btn w-full mt-8  rounded-full py-2 ${
+                          hasRequestBeenSent ? "btn-disabled !text-white" : "bg-transparent text-white"
+                        } `}
+                        onClick={()=> handleUserRequest({ userId: id })}
+                        disabled={hasRequestBeenSent || isLoading}
+                      >
+                        {hasRequestBeenSent ? (
+                          <>
+                            <Loader className="size-4 mr-2 text-white" />
+                            Request Sent
+                          </>
+                        ) : (
+                          <>
+                            <UserPlus className="size-4 mr-2" />
+                            Send Friend Request
+                          </>
+                        )}
+                      </button>
               </li>
             )
+            }
           )}
           </ul>
         )
-      ) : (
+       : (
         // No friends found
         <div className="p-4 md:p-8">
           <h2 className="text-[18px] font-bold text-white">Nobody Found.</h2>
