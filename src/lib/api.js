@@ -60,3 +60,9 @@ export async function getFriendRequest() {
              return data;
         
 }
+
+export async function getStreamToken() {
+    const {data} = await axiosInstance.get("/chat/token");
+    console.log("getStreamToken data", data);
+    return data;
+}

@@ -12,13 +12,13 @@ function Sidebar() {
     { name: "Home", path: "/", icon: <Home /> },
     { name: "Friends", path: "/friends", icon: <User /> },
     { name: "Notifications", path: "/notification", icon: <Bell /> },
-    { name: "Chats", path: "/chat", icon: <Mail /> },
+    { name: "Chats", path: "/chat/:id", icon: <Mail /> },
   ];
 
   return (
     <aside
       className={`${
-        currentPath === "/chat" ? "hidden" : "lg:flex"
+        currentPath === "/chat/:id" ? "hidden" : "lg:flex"
       } flex-col w-64 h-screen sticky top-0 bg-black shadow-2xl text-white p-2 overflow-hidden`}
     >
       {/* logo */}
