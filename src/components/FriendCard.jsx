@@ -2,25 +2,32 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getFriends } from "../lib/api";
 import { LANGUAGE_TO_FLAG } from "../constants";
+import NoFriendsFound from "./NoFriendsFound";
+import { capitalizeString } from "./NewFriends";
 
 function FriendCard() {
-  const {data:friends=[],isLoading}=useQuery({
-    queryKey:['friends'],
-    queryFn:getFriends,
+  const { data:friends, isLoading } = useQuery({
+    queryKey: ["friends"],
+    queryFn: getFriends,
   });
 
+  console.log("all friends data", friends);
+
   return (
-    <section>
+    <section className="my-12">
       {/* single friend card */}
-      {friends?.length > 0 ? (
-        isLoading ? (
-          <div className="flex items-center justify-center h-full">
-            <div className="loader">Loading....</div>
+      {isLoading ? (
+        <div className="flex items-center justify-center h-full">
+          <div className="text-white animate-pulse text-lg">
+            Loading friends...
           </div>
-        ) : (
-          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 shadow-sm  shadow-slate-600 p-4 rounded-md">
-          {
-          friends.map(
+        </div>
+      ) : friends?.length === 0 ? (
+        <NoFriendsFound />
+      ) : (
+        // No friends found
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 shadow-sm  shadow-slate-600 p-4 rounded-md">
+          {friends?.map(
             ({
               id,
               fullname,
@@ -28,9 +35,7 @@ function FriendCard() {
               learningLanguage,
               nativeLanguage,
             }) => (
-              <li
-                key={id}
-              >
+              <li key={id}>
                 {/* friend card header */}
                 <div className="flex gap-4 items-center">
                   <div className="avatar">
@@ -46,14 +51,14 @@ function FriendCard() {
                   </h2>
                 </div>
                 {/* friend card body */}
-                <div className="flex flex-col md:flex-row gap-2 mt-4">
-                  <span className="flex items-center gap-2 text-white bg-primary/65 px-4 py-1 rounded-full w-44">
+                <div className="flex flex-col md:flex-row text-sm gap-2 mt-4">
+                  <span className="flex items-center gap-1 text-white bg-primary/65 px-4 py-1 rounded-full w-44">
                     {countryFlag(nativeLanguage)}
-                    Native:{nativeLanguage}
+                    Native : {capitalizeString(nativeLanguage)}
                   </span>
-                  <span className="flex items-center gap-2 bg-transparent text-white  border-[1px] px-4 py-1 rounded-full w-44">
-                  {countryFlag(nativeLanguage)}
-                    Learning:{learningLanguage}
+                  <span className="flex items-center gap-0 bg-transparent text-white  border-[1px] px-3 py-1 rounded-full w-44">
+                    {countryFlag(nativeLanguage)}
+                    Learning: {capitalizeString(learningLanguage) || "N/A"}
                   </span>
                 </div>
                 {/* friend card footer */}
@@ -63,16 +68,7 @@ function FriendCard() {
               </li>
             )
           )}
-          </ul>
-        )
-      ) : (
-        // No friends found
-        <div className="p-4 md:p-8">
-          <h2 className="text-[18px] font-bold text-white">No Friends Found</h2>
-          <p className="text-white/70 mt-2">
-            You can add friends to start chatting.
-          </p>
-        </div>
+        </ul>
       )}
     </section>
   );
@@ -80,20 +76,18 @@ function FriendCard() {
 
 export default FriendCard;
 
-
-export function countryFlag(language){
-     if(!language) return null;
-     const langToLower= language.toLowerCase();
-     const countryCode= LANGUAGE_TO_FLAG[langToLower];
-     if(countryCode){
-        return(
-          <img
-          src={`https://flagcdn.com/w20/${countryCode}.png`}
-          className="h-3 mr-1"
-          alt="Country Flag"
-          />
-        )
-     }
-      return null;
-
+export function countryFlag(language) {
+  if (!language) return null;
+  const langToLower = language.toLowerCase();
+  const countryCode = LANGUAGE_TO_FLAG[langToLower];
+  if (countryCode) {
+    return (
+      <img
+        src={`https://flagcdn.com/w20/${countryCode}.png`}
+        className="h-3 mr-1"
+        alt="Country Flag"
+      />
+    );
+  }
+  return null;
 }
