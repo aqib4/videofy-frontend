@@ -48,9 +48,9 @@ function App() {
             ? <Onboarding/>  
             : <Navigate to={!isAuthenticated ? "/login": "/"}/> } />
 
-          <Route path="/chat" element={(isAuthenticated && isOnboarded) ?
+          <Route path="/chat/:id" element={(isAuthenticated && isOnboarded) ?
              <Layout>
-              <Chat/>
+              <Chat showSideBar="false"/>
              </Layout> 
             : <Navigate to={!isAuthenticated? "/login":"/chat"}/>} />
 

@@ -4,9 +4,9 @@ import { getFriends } from "../lib/api";
 import { LANGUAGE_TO_FLAG } from "../constants";
 import NoFriendsFound from "./NoFriendsFound";
 import { capitalizeString } from "./NewFriends";
-
+import { Link } from "react-router";
 function FriendCard() {
-  const { data:friends, isLoading } = useQuery({
+  const { data: friends, isLoading } = useQuery({
     queryKey: ["friends"],
     queryFn: getFriends,
   });
@@ -29,13 +29,13 @@ function FriendCard() {
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 shadow-sm  shadow-slate-600 p-4 rounded-md">
           {friends?.map(
             ({
-              id,
+              _id,
               fullname,
               profilePic,
               learningLanguage,
               nativeLanguage,
             }) => (
-              <li key={id}>
+              <li key={_id}>
                 {/* friend card header */}
                 <div className="flex gap-4 items-center">
                   <div className="avatar">
@@ -62,9 +62,12 @@ function FriendCard() {
                   </span>
                 </div>
                 {/* friend card footer */}
-                <button className="w-full  border-[1px] rounded-full px-4 py-3   mt-4 bg-transparent text-white hover:bg-primary/95 transition-colors duration-300">
+                <Link
+                  to={`/chat/${_id}`}
+                  className="inline-block border border-white cursor-pointer mt-4 text-center rounded-full px-4 py-3 bg-transparent text-white hover:bg-primary/95 transition-colors duration-300 w-full"
+                >
                   Message
-                </button>
+                </Link>
               </li>
             )
           )}
