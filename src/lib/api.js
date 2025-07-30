@@ -26,7 +26,7 @@ export async function loginUser(loginData) {
 export async function getFriends() {
     const {data} = await axiosInstance.get("/user/friends");
     console.log("getFriends Data", data);
-    return data;
+    return data.friends;
 }
 
 export async function getRecommendedUsers() {
@@ -48,7 +48,8 @@ export async function sendFriendRequest({ userId }) {
 }
 
 export async function acceptFriendRequest({ userId }) {
-    const { data } = await axiosInstance.post(`/user/friend-request/${userId}/accept`);
+    console.log("acceptFriendRequest userId", userId);
+    const { data } = await axiosInstance.put(`/user/friend-request/${userId}/accept`);
     console.log("acceptFriendRequest data", data);
     return data;
 }

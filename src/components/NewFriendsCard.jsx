@@ -1,8 +1,9 @@
 import React from 'react'
 
-function NewFriendsCard({fullname,profilePic,id}) {
+function NewFriendsCard({NewFriend}) {
+  const {fullname,profilePic}=NewFriend;
   return (
-    <div key={id} className="flex flex-col lg:flex-row justify-between items-center gap-3 ">
+    <div className="flex flex-col lg:flex-row justify-between items-center gap-3 w-full">
     <div className="flex justify-between items-center gap-3">
     <div className="avatar">
         <div className="ring-primary ring-offset-base-100 w-14 rounded-full ring-2 ring-offset-2">
