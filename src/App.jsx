@@ -1,7 +1,7 @@
 import { Navigate, Routes } from "react-router";
 import { Route } from "react-router";
 import Home from "./pages/Home.jsx";
-import Chat from "./pages/Chat.jsx";
+import ChatPage from "./pages/Chat.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/Signup.jsx";
 import Notifications from "./pages/Notifications.jsx";
@@ -12,6 +12,8 @@ import Loader from "./components/Loader.jsx";
 import useAuthUser from "./hooks/useAuthUser.jsx";
 import Layout from "./components/Layout.jsx";
 import useThemeStore from "./store/usethemestore.js";
+import "stream-chat-react/dist/css/v2/index.css";
+import "../src/index.css";
 
 
 function App() {
@@ -50,7 +52,7 @@ function App() {
 
           <Route path="/chat/:id" element={(isAuthenticated && isOnboarded) ?
              <Layout>
-              <Chat showSideBar="false"/>
+              <ChatPage showSideBar="false"/>
              </Layout> 
             : <Navigate to={!isAuthenticated? "/login":"/chat"}/>} />
 
@@ -61,9 +63,9 @@ function App() {
              : 
              <Navigate to={!isAuthenticated ? "/login" : "/onbaording"}/> } />
 
-          <Route path="/call" element={isAuthenticated ? 
+          <Route path="/call/:id" element={isAuthenticated && isOnboarded ? 
           <Call/>  :
-           <Navigate to="/login"/> } />
+           <Navigate to={!isAuthenticated?"/login":"/onbaording"}/> } />
 
         </Routes> 
         <Toaster/>
