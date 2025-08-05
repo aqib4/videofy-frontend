@@ -6,8 +6,9 @@ export async function signUp(signupData){
 }
 
 export async function getAuthUser(){
-        const authUserData= await axiosInstance.get("/auth/me")
-        return authUserData?.data;
+        const authUser= await axiosInstance.get("/auth/me")
+        console.log("authUser data", authUser);
+        return authUser.data;
 }
 
 export async function completeOnboarding(onboarding) {
@@ -62,7 +63,12 @@ export async function getFriendRequest() {
 }
 
 export async function getStreamToken() {
-    const {data} = await axiosInstance.get("/chat/token");
-    console.log("getStreamToken data", data);
-    return data;
+    try {
+        const {data} = await axiosInstance.get("/chat/token");
+     console.log("getStreamToken data", data.token);
+    return data.token;
+    } catch (error) {
+        console.error("Error fetching Stream token:", error);
+        throw new Error("Failed to fetch Stream token");
+    }
 }

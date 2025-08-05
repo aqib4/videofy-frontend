@@ -7,7 +7,7 @@ const ThemeModal=() => {
 
 
   return (
-    <div className="dropdown dropdown-end">
+    <div className="dropdown dropdown-end z-20">
       {/* DROPDOWN TRIGGER */}
       <button tabIndex={0} className="btn btn-ghost btn-circle">
         <PaletteIcon className="size-5 text-white/55 hover:text-white" />
