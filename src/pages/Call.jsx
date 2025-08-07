@@ -31,7 +31,7 @@ function Call() {
         enabled: !!authUser,
       });
       
-       console.log("Token", streamToken  );
+       console.log("Token", streamToken.token  );
 
        const Stream_api_key=import.meta.env.VITE_STREAM_API_KEY;
 
@@ -81,14 +81,23 @@ function Call() {
         );
        }
        return (
-        <StreamVideo client={client}>
-          <StreamCall call={call}>
-            <StreamTheme>
-              <SpeakerLayout />
-              <CallControls />
-            </StreamTheme>
-          </StreamCall>
-        </StreamVideo>
+        <div className="h-screen flex flex-col items-center justify-center">
+             <div className='relative'>
+                 {
+                  client && call ?(
+                    <StreamVideo client={client}>
+                      <StreamCall call={call}>
+                        <CallContent call={call} client={client} />
+                      </StreamCall>
+                    </StreamVideo>
+                  ) :
+                  <div>
+                    <p>Coule not initialize call or try again later.</p>
+                  </div>
+                 }
+             </div>
+            <p>aqib</p>
+        </div>
       );
       
 }
