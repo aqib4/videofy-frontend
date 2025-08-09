@@ -18,10 +18,11 @@ import toast from 'react-hot-toast';
 
 function Call() {
   
-       const {callersID}=useParams();
-       const {client,setClient}=useState();
-       const {call,setCall}=useState();
-       const {isConnecting,setIsConnnecting}=useState();
+       const {id:callersID}=useParams();
+        console.log("Callers ID", callersID);
+       const [client,setClient]=useState();
+       const [call,setCall]=useState();
+       const [isConnecting,setIsConnnecting]=useState(true);
 
        const {authUser,isLoading}=useAuthUser();
 
@@ -31,21 +32,24 @@ function Call() {
         enabled: !!authUser,
       });
       
-       console.log("Token", streamToken.token  );
+       console.log("Token", streamToken?.token  );
 
        const Stream_api_key=import.meta.env.VITE_STREAM_API_KEY;
 
        useEffect(()=>{
         const initCall=async()=>{
-          if(!streamToken.token  || !authUser || !callersID) return;
-          setIsConnnecting(true);
-
+          if(!streamToken?.token  || !authUser || !callersID) 
+          {
+            return
+          }
+         setIsConnnecting(true);
           try {
               const user={
-                id:authUser._id,
-                name:authUser.name,
-                image:authUser.image,
+                id:authUser?._id,
+                name:authUser?.fullname,
+                image:authUser?.profilePic,
               }
+              console.log("User", user);
               const videoClient= new StreamVideoClient(
               {
                 apiKey: Stream_api_key,
@@ -71,8 +75,11 @@ function Call() {
           }
         }
         initCall();
-       },[streamToken.token ,Stream_api_key,setCall,setClient,setIsConnnecting,authUser,callersID])
+       },[streamToken?.token ,Stream_api_key,authUser])
 
+      //  console.log("Client", client)
+      //  console.log("Call", call)
+       
        if(isConnecting || isLoading) {
         return (
           <div className="flex items-center justify-center h-screen">
@@ -81,22 +88,26 @@ function Call() {
         );
        }
        return (
-        <div className="h-screen flex flex-col items-center justify-center">
+        <div data-theme="coffee" className="h-screen flex flex-col items-center justify-center">
              <div className='relative'>
+              
                  {
+                 
                   client && call ?(
                     <StreamVideo client={client}>
-                      <StreamCall call={call}>
-                        <CallContent call={call} client={client} />
-                      </StreamCall>
-                    </StreamVideo>
+                    <StreamCall call={call}>
+                      <StreamTheme>
+                        <SpeakerLayout />
+                        <CallControls />
+                      </StreamTheme>
+                    </StreamCall>
+                  </StreamVideo>
                   ) :
                   <div>
                     <p>Coule not initialize call or try again later.</p>
                   </div>
                  }
              </div>
-            <p>aqib</p>
         </div>
       );
       
