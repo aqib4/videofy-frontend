@@ -9,8 +9,6 @@ import {
   StreamCall,
   StreamTheme,
   StreamVideo,
-  useCallStateHooks,
-  CallingState,
   StreamVideoClient 
 } from "@stream-io/video-react-sdk";
 import "@stream-io/video-react-sdk/dist/css/styles.css";

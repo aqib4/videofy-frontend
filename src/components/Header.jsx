@@ -25,6 +25,8 @@ function Header() {
   };
 
   const currentPath = window.location.pathname;
+  const isChatRoute = /^\/chat\/[^/]+$/.test(currentPath);
+
   if (isPending) {
     return <Loader />;
   }
@@ -32,8 +34,8 @@ function Header() {
   return (
     <nav className="bg-black relative flex justify-between items-center py-2 px-3 md:px-8">
       {/* Logo */}
-      {currentPath === "/chat/:id" ? (
-        <Link to={"/"} className="flex items-center justify-center gap-2">
+      {isChatRoute  ? (
+        <Link to={"/"} className=" flex items-center justify-center gap-2">
           <Video color="#1DB548" className="size-5 xl:size-12" />
           <span className="font-mono font-semibold text-lg md:text-3xl xl:text-4xl text-[#1DB548]">
             VIDEOFY
