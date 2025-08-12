@@ -12,14 +12,11 @@ function Sidebar() {
     { name: "Home", path: "/", icon: <Home /> },
     { name: "Friends", path: "/friends", icon: <User /> },
     { name: "Notifications", path: "/notification", icon: <Bell /> },
-    { name: "Chats", path: "/chat/:id", icon: <Mail /> },
   ];
 
   return (
     <aside
-      className={`${
-        currentPath === "/chat/:id" ? "hidden" : "lg:flex"
-      } flex-col w-64 h-screen sticky top-0 bg-black shadow-2xl text-white p-2 overflow-hidden`}
+      className={"hidden lg:flex flex-col w-64 h-screen sticky top-0 bg-black shadow-2xl text-white p-2 overflow-hidden"}
     >
       {/* logo */}
       <Link to="/">
@@ -58,7 +55,7 @@ function Sidebar() {
         <div className="flex flex-col">
           <span className="text-sm font-sans font-medium">{authUser?.fullname}</span>
           <p className="text-primary/70 flex items-center gap-1">
-            <span className="size-4 rounded-full bg-success inline-block" />
+            <span className="size-3 rounded-full bg-success inline-block" />
             Online
           </p>
         </div>

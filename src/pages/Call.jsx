@@ -81,7 +81,7 @@ function Call() {
        if(isConnecting || isLoading) {
         return (
           <div className="flex items-center justify-center h-screen">
-            <span className="loader loading-spinner "></span>
+            <span className="Loading loading-spinner "></span>
           </div>
         );
        }

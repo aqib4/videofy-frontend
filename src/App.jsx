@@ -6,9 +6,10 @@ import Login from "./pages/Login.jsx";
 import SignUp from "./pages/Signup.jsx";
 import Notifications from "./pages/Notifications.jsx";
 import Onboarding from "./pages/Onboarding.jsx";
+import Friends from "./pages/Friends.jsx";
 import Call from "./pages/Call.jsx";
 import { Toaster } from "react-hot-toast";
-import Loader from "./components/Loader.jsx";
+import Loading from "./components/Loading.jsx";
 import useAuthUser from "./hooks/useAuthUser.jsx";
 import Layout from "./components/Layout.jsx";
 import useThemeStore from "./store/usethemestore.js";
@@ -16,7 +17,6 @@ import "stream-chat-react/dist/css/v2/index.css";
 import "../src/index.css";
 import { ChartLine } from "lucide-react";
 import Chatlist from "./pages/chatlist.jsx";
-
 function App() {
   const { isLoading, authUser } = useAuthUser();
   console.log("authUser", authUser);
@@ -24,7 +24,7 @@ function App() {
   const isOnboarded = authUser?.isOnboarded;
   const { theme } = useThemeStore();
   if (isLoading) {
-    return <Loader />;
+    return <Loading />;
   }
 
   return (
@@ -95,6 +95,17 @@ function App() {
             )
           }
         />
+
+        <Route path="/friends" element={
+            isAuthenticated && isOnboarded ? (
+              <Layout>
+                <Friends/>
+              </Layout>
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onbaording"} />
+            )
+
+        }/>
 
         <Route
           path="/call/:id"

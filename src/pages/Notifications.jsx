@@ -5,6 +5,7 @@ import { Bell, User2Icon } from "lucide-react";
 import NewFriendsCard from "../components/NewFriendsCard";
 import NoFriendsFound from "../components/NoFriendsFound";
 import {  acceptFriendRequest, getFriendRequest } from "../lib/api";
+import Loading from "../components/Loading";
 function Notifications() {
   const queryClient = useQueryClient();
   const { data: FriendRequests, isLoading: FriendRequestsLoading,error } = useQuery({
@@ -47,6 +48,7 @@ function Notifications() {
         </h3>
         <span className="bg-primary px-3 rounded-xl  text-black">{inCommingRequest.length}</span>
       </div>
+      
 
       {
         error && (
@@ -58,9 +60,7 @@ function Notifications() {
        {/* friend requests cards */}
       <div className="flex flex-col items-center w-full  gap-4 mt-4">
       {FriendRequestsLoading ? (
-          <div className="flex justify-center items-center h-full">
-            <span className="text-lg text-white">Loading ....</span>
-          </div>
+          <Loading/>
         ) : inCommingRequest?.length === 0 ? (
           <NoFriendsFound />
         ) : (
@@ -90,9 +90,7 @@ function Notifications() {
         <div className="flex flex-col items-center gap-6 mt-4">
           {
             FriendRequestsLoading ? (
-              <div className="flex justify-center items-center h-full">
-                <span className="text-lg text-white">Loading ....</span>
-              </div> 
+                <Loading/>
             ) : acceptedRequests.length === 0 ? (
               <NoFriendsFound />
             ) : (

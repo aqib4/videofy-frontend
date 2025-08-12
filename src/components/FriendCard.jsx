@@ -5,6 +5,7 @@ import { LANGUAGE_TO_FLAG } from "../constants";
 import NoFriendsFound from "./NoFriendsFound";
 import { capitalizeString } from "./NewFriends";
 import { Link } from "react-router";
+import Loading from "./Loading";
 function FriendCard() {
   const { data: friends, isLoading } = useQuery({
     queryKey: ["friends"],
@@ -18,15 +19,13 @@ function FriendCard() {
       {/* single friend card */}
       {isLoading ? (
         <div className="flex items-center justify-center h-full">
-          <div className="text-white animate-pulse text-lg">
-            Loading friends...
-          </div>
+          <Loading/>
         </div>
       ) : friends?.length === 0 ? (
         <NoFriendsFound />
       ) : (
         // No friends found
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 shadow-sm  shadow-slate-600 p-4 rounded-md">
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4  p-4 rounded-md">
           {friends?.map(
             ({
               _id,
@@ -51,7 +50,7 @@ function FriendCard() {
                   </h2>
                 </div>
                 {/* friend card body */}
-                <div className="flex flex-col md:flex-row text-sm gap-2 mt-4">
+                <div className="flex flex-col md:flex-row text-[0.8rem] gap-2 mt-4">
                   <span className="flex items-center gap-1 text-white bg-primary/65 px-4 py-1 rounded-full w-44">
                     {countryFlag(nativeLanguage)}
                     Native : {capitalizeString(nativeLanguage)}
