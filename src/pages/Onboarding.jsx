@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LoaderIcon, ShuffleIcon, MapPinIcon, GlobeIcon, CameraIcon } from "lucide-react";
+import { Loader, ShuffleIcon, MapPinIcon, GlobeIcon, CameraIcon } from "lucide-react";
 import useAuthUser from "../hooks/useAuthUser";
 import toast from "react-hot-toast";
 import { LANGUAGES } from "../constants/index.js";
@@ -197,7 +197,7 @@ function Onboarding() {
             >
               {isPending ? (
                 <>
-                  <LoaderIcon className="animate-spin size-6" />
+                  <Loader className="animate-spin size-6" />
                   Onboarding...
                 </>
               ) : (

@@ -1,7 +1,7 @@
 import { User } from "lucide-react";
 import FriendCard from "../components/FriendCard";
 import NewFriends from "../components/NewFriends";
-
+import { Link } from "react-router";
 const Home = () => {
   return (
     <section className="bg-black py-4 px-10 h-full" >
@@ -10,10 +10,12 @@ const Home = () => {
         <h2 className="font-sans font-semibold text-2xl text-white/90">
           Your Friends{" "}
         </h2>
+        <Link to={"/friends"}>
         <span className="flex items-center justify-start gap-3 border border-white/45 px-4 py-1 ring-1 ring-black/40 rounded-full text-white  text-md">
           <User />
           friend Requests
         </span>
+        </Link>
       </div>
 
       {/* page body */}

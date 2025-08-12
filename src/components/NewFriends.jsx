@@ -4,6 +4,7 @@ import { getRecommendedUsers, GetOutGoingFriendRequests } from "../lib/api";
 import { Toaster } from "react-hot-toast";
 import { countryFlag } from "./FriendCard";
 import useSendFriendRequest from "../hooks/useSendFriendRequest";
+import Loading from "./Loading";
 import {
   CircleCheck,
   Loader,
@@ -52,9 +53,7 @@ function NewFriends() {
     <section className="mt-10">
       {/* single friend card */}
       {isLoading ? (
-        <div className="flex items-center justify-center h-full">
-          <div className="loader">Loading....</div>
-        </div>
+        <Loading/>
       ) : recommendusers?.users?.length > 0 ? (
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4  p-4 shadow-sm shadow-slate-600 rounded-md">
           {recommendusers.users.map(
@@ -94,7 +93,7 @@ function NewFriends() {
                     </div>
                   </div>
                   {/* friend card body */}
-                  <div className="flex flex-col md:flex-row gap-2 mt-4 text-sm">
+                  <div className="flex flex-col md:flex-row gap-2 mt-4 text-[0.8rem]">
                     <span className="flex items-center gap-1 text-white bg-primary/65 px-1 py-1 rounded-full w-44">
                       {countryFlag(nativeLanguage)}
                       Native : {capitalizeString(nativeLanguage)}
@@ -106,7 +105,7 @@ function NewFriends() {
                   </div>
                   {/* friend card footer */}
                   <button
-                    className={`btn w-full mt-8  rounded-full py-2 ${
+                    className={`btn w-full mt-8 hover:bg-primary rounded-full py-2 ${
                       hasRequestBeenSent
                         ? "btn-disabled !text-white"
                         : "bg-transparent text-white"

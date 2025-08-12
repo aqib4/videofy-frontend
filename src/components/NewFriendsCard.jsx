@@ -16,8 +16,8 @@ function NewFriendsCard({NewFriend}) {
     </div>
     </div>
     <div className="flex flex-col md:flex-row gap-2">
-       <button className="bg-primary text-black font-sans text-[1rem] rounded-full w-32 h-10">New Friend</button>
-       <button className="bg-white text-black font-sans text-[1rem] rounded-full w-32 h-10">Start Chatting</button>
+       <button className="bg-primary text-black font-sans text-[0.8rem] rounded-full w-32 h-10">New Friend</button>
+       <button className="bg-white text-black font-sans text-[0.8rem] rounded-full w-32 h-10">Start Chatting</button>
     </div>
 
    

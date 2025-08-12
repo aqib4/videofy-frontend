@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import useAuthUser from "../hooks/useAuthUser";
 import useLogout from "../hooks/useLogout";
-import Loader from "./Loader";
+import Loading from "./Loading";
 import ThemeModal from "./themeModal";
 import { Link } from "react-router";
 function Header() {
@@ -25,15 +25,17 @@ function Header() {
   };
 
   const currentPath = window.location.pathname;
+  const isChatRoute = /^\/chat\/[^/]+$/.test(currentPath);
+
   if (isPending) {
-    return <Loader />;
+    return <Loading />;
   }
 
   return (
     <nav className="bg-black relative flex justify-between items-center py-2 px-3 md:px-8">
       {/* Logo */}
-      {currentPath === "/chat/:id" ? (
-        <Link to={"/"} className="flex items-center justify-center gap-2">
+      {isChatRoute  ? (
+        <Link to={"/"} className=" flex items-center justify-center gap-2">
           <Video color="#1DB548" className="size-5 xl:size-12" />
           <span className="font-mono font-semibold text-lg md:text-3xl xl:text-4xl text-[#1DB548]">
             VIDEOFY
@@ -51,7 +53,9 @@ function Header() {
 
       {/* Notifications and Profile Pic (Mobile) */}
       <div className="lg:hidden flex items-center gap-2">
+        <Link to={"/notification"}>
         <Bell className="w-6 h-6 text-white/55 hover:text-white cursor-pointer transition duration-200" />
+        </Link>
         <img
           src={authUser?.profilePic}
           alt="profile"
@@ -62,8 +66,10 @@ function Header() {
 
       {/* Desktop Menu */}
       <div className="hidden lg:flex  items-center justify-equal gap-6">
+
+      <Link to={"/notification"}>
         <Bell className="w-6 h-6 text-white/55 hover:text-white cursor-pointer transition duration-200" />
-        <ThemeModal/>
+        </Link>
         <img
           src={authUser?.profilePic}
           alt="profile"
