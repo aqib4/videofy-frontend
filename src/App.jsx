@@ -8,6 +8,7 @@ import Notifications from "./pages/Notifications.jsx";
 import Onboarding from "./pages/Onboarding.jsx";
 import Friends from "./pages/Friends.jsx";
 import Call from "./pages/Call.jsx";
+import Profile from "./pages/profile.jsx";
 import { Toaster } from "react-hot-toast";
 import Loading from "./components/Loading.jsx";
 import useAuthUser from "./hooks/useAuthUser.jsx";
@@ -30,6 +31,8 @@ function App() {
   return (
     <div className="h-screen" data-theme={theme}>
       <Routes>
+        
+        
         <Route
           path="/"
           element={
@@ -118,7 +121,7 @@ function App() {
           }
         />
 
-<Route
+        <Route
           path="/chatlist"
           element={
             isAuthenticated && isOnboarded ? (
@@ -127,6 +130,18 @@ function App() {
               <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
             )
           }
+        />
+
+        <Route
+        path="/profile" element={
+          isAuthenticated && isOnboarded ? 
+          (
+          <Profile/>
+          )
+          :(
+          <Navigate to={!isAuthenticated ? "/login": "/onboarding"}/>
+        )
+      }
         />
       </Routes>
       <Toaster />
